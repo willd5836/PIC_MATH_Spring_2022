@@ -1,0 +1,17 @@
+```{r}
+library(readxl)
+SeriesReport_202202081338 <- read_excel("~/MATH 408 - PIC/SeriesReport-202202081338.xls", skip = 7)
+View(SeriesReport_202202081338)
+
+```
+```{r}
+TotalManufacturingData <- SeriesReport_202202081338
+
+x <- ts(data = TotalManufacturingData$Value, 
+        start     = c(1992, 1), 
+        frequency = 12)
+class(x)
+plot(x)
+
+```
+
