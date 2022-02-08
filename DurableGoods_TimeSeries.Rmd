@@ -1,0 +1,15 @@
+---
+title: "Durable Goods"
+output: html_notebook
+---
+```{r}
+library(readxl)
+DurableGoodsData_02082022 <- read_excel("~/School/PIC Math/DurableGoodsData_02082022.xls", skip = 7)
+View(DurableGoodsData_02082022)
+```
+```{r}
+DurableGoods_TimeSeries <- ts(data = DurableGoodsData_02082022$Value, start = c(1992, 1), frequency = 12) #Press tab if we don't know what to add next into the arguments
+class(DurableGoods_TimeSeries)
+plot(DurableGoods_TimeSeries)
+```
+
