@@ -1,0 +1,16 @@
+---
+title: "Primary Metals Time Series"
+output: html_notebook
+---
+```{r}
+library(readxl)
+PrimaryMetalsData_02102022 <- read_excel("~/School/PIC Math/PrimaryMetalsData_02102022.xls",
+skip = 7)
+View(PrimaryMetalsData_02102022)
+```
+```{r}
+x <- ts(data = PrimaryMetalsData_02102022$Value, 
+        start     = c(1992, 1), 
+        frequency = 12)
+plot(x)
+```
