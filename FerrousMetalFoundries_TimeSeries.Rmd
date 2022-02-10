@@ -1,0 +1,17 @@
+```{r}
+library(readxl)
+SeriesReport_202202101407 <- read_excel("~/MATH 408 - PIC/SeriesReport-202202101407.xls", 
+    skip = 7)
+View(SeriesReport_202202101407)
+```
+```{r}
+FerrousMetalFoundries <- SeriesReport_202202101407
+
+x <- ts(data = FerrousMetalFoundries$Value, 
+        start = c(1992, 1),
+        frequency = 12)
+
+class(x)
+plot(x)
+```
+
