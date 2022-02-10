@@ -1,0 +1,16 @@
+---
+title: "Wood Products"
+output: html_notebook
+---
+
+```{r}
+library(readxl)
+WoodProducts2 <- read_excel("~/Documents/PIC Math/WoodProducts2.xls", skip = 7)
+View(WoodProducts2)
+```
+```{r}
+WoodProducts_TimeSeries2 <- ts(data = WoodProducts2$Value, start=c(1992,1), frequency = 12)
+class(WoodProducts_TimeSeries2)
+plot(WoodProducts_TimeSeries2)
+```
+
