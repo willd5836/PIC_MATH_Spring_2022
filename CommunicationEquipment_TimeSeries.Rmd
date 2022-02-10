@@ -1,0 +1,20 @@
+---
+title: "Communication Equipment"
+output: html_notebook
+---
+ 
+
+```{r}
+library(readxl)
+Communication_Equipment <- read_excel("~/Documents/Communication Equipment.xls",
+skip = 7)
+View(Communication_Equipment)
+```
+```{r}
+CommunicationEquipment_TimeSeries <- ts(data = Communication_Equipment$Value, start=c(1992,1), frequency = 12)
+class(CommunicationEquipment_TimeSeries)
+plot(CommunicationEquipment_TimeSeries)
+```
+
+
+
