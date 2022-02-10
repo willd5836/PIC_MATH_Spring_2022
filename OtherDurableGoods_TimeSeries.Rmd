@@ -1,0 +1,20 @@
+---
+title: "Other Durable Goods"
+output: html_notebook
+---
+
+ 
+
+```{r}
+library(readxl)
+OtherDurableGoods <- read_excel("~/Documents/OtherDurableGoodsSeriesReport-202202101350.xls", skip = 7)
+View(OtherDurableGoods)
+```
+```{r}
+OtherDurableGoods_TimeSeries <- ts(data = OtherDurableGoods$Value, start=c(1992,1), frequency = 12)
+class(OtherDurableGoods_TimeSeries)
+plot(OtherDurableGoods_TimeSeries)
+```
+
+
+
