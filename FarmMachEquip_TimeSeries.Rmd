@@ -1,0 +1,19 @@
+```{r}
+library(readxl)
+SeriesReport_202202151240 <- read_excel("~/MATH 408 - PIC/SeriesReport-202202151240.xls", 
+    skip = 7)
+View(SeriesReport_202202151240)
+```
+
+```{r}
+FarmMachEquip <- SeriesReport_202202151240
+
+x <- ts(data = FarmMachEquip$Value, 
+        start = c(1992, 1),
+        frequency = 12)
+
+class(x)
+plot(x)
+
+```
+
