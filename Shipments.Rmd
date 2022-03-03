@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r message=FALSE, warning=FALSE}
+library(readxl)
+library(mosaic)
+library(tidyverse)
+library(tibble)
+Shipments_02152022 <- read_excel("Shipments_02152022.xls",
+col_names = FALSE)
+View(Shipments_02152022)
+```
+```{r}
+initial_data <- Shipments_02152022
+industry_code_list <- as.array(unique(initial_data$...1))
+time_series_dataframe <- tibble(.rows = 360)
+```
+
+```{r message=FALSE, warning=FALSE}
+for (i in 1:length(industry_code_list))
+{
+  current_code <- industry_code_list[i]
+  current_industry <- initial_data %>% filter(initial_data$...1 == current_code) %>% select(3:14)
+  current_industry_transpose <- as.list(t(current_industry))
+  for (j in 1:length(current_industry_transpose))
+  {
+    time_series_dataframe[j,i] = current_industry_transpose[j]
+  }
+}
+colnames(time_series_dataframe) = industry_code_list
+dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
+dates2 <- format(dates, "%m/%y")
+time_series_dataframe_time <- time_series_dataframe %>% add_column(Date = dates2)
+time_series_dataframe_time
+```
