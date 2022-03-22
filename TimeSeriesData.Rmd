@@ -7,29 +7,217 @@ library(readxl)
 library(mosaic)
 library(tidyverse)
 library(tibble)
-Shipments_02152022 <- read_excel("Shipments_02152022.xls",col_names = FALSE)
-View(Shipments_02152022)
+library(matrixStats)
+Shipments <- read_excel("Shipments.xls", col_names = FALSE)
+NewOrders <- read_excel("NewOrders.xls", col_names = FALSE)
+UnfilledOrders <- read_excel("UnfilledOrders.xls", col_names = FALSE)
+TotalInventories <- read_excel("TotalInventories.xls", col_names = FALSE)
+InventoriesToShipments <- read_excel("InventoriesToShipments.xls", col_names = FALSE)
+UnfilledOrdersToShipments <- read_excel("UnfilledOrdersToShipments.xls", col_names = FALSE)
 ```
 ```{r}
-initial_data <- Shipments_02152022
-industry_code_list <- as.array(unique(initial_data$...1))
-time_series_dataframe <- tibble(.rows = 360)
+shipments_industry_code_list <- as.array(unique(Shipments$...1))
+shipments_dataframe <- tibble(.rows = 360)
 ```
 
 ```{r message=FALSE, warning=FALSE}
-for (i in 1:length(industry_code_list))
+for (i in 1:length(shipments_industry_code_list))
 {
-  current_code <- industry_code_list[i]
-  current_industry <- initial_data %>% filter(initial_data$...1 == current_code) %>% select(3:14)
+  current_code <- shipments_industry_code_list[i]
+  current_industry <- Shipments %>% filter(Shipments$...1 == current_code, Shipments$...2 != "2022") %>% select(3:14)
   current_industry_transpose <- as.list(t(current_industry))
   for (j in 1:length(current_industry_transpose))
   {
-    time_series_dataframe[j,i] = current_industry_transpose[j]
+    shipments_dataframe[j,i] = current_industry_transpose[j]
   }
+  shipments_dataframe[i] <- sapply(shipments_dataframe[i],as.numeric)
 }
-colnames(time_series_dataframe) = industry_code_list
+colnames(shipments_dataframe) = shipments_industry_code_list
 dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
 dates2 <- format(dates, "%m/%y")
-time_series_dataframe_time <- time_series_dataframe %>% add_column(Date = dates2)
-time_series_dataframe_time
+shipments_dataframe_time <- shipments_dataframe %>% add_column(Date = dates2)
+head(shipments_dataframe_time,12)
 ```
+```{r}
+neworders_industry_code_list <- as.array(unique(NewOrders$...1))
+neworders_dataframe <- tibble(.rows = 360)
+```
+```{r message=FALSE, warning=FALSE}
+for (i in 1:length(neworders_industry_code_list))
+{
+  current_code <- neworders_industry_code_list[i]
+  current_industry <- NewOrders %>% filter(NewOrders$...1 == current_code, NewOrders$...2 != "2022") %>% select(3:14)
+  current_industry_transpose <- as.list(t(current_industry))
+  for (j in 1:length(current_industry_transpose))
+  {
+    neworders_dataframe[j,i] = current_industry_transpose[j]
+  }
+  neworders_dataframe[i] <- sapply(neworders_dataframe[i],as.numeric)
+}
+colnames(neworders_dataframe) = neworders_industry_code_list
+dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
+dates2 <- format(dates, "%m/%y")
+neworders_dataframe_time <- neworders_dataframe %>% add_column(Date = dates2)
+head(neworders_dataframe_time,12)
+```
+```{r}
+unfilledorders_industry_code_list <- as.array(unique(UnfilledOrders$...1))
+unfilledorders_dataframe <- tibble(.rows = 360)
+```
+```{r message=FALSE, warning=FALSE}
+for (i in 1:length(unfilledorders_industry_code_list))
+{
+  current_code <- unfilledorders_industry_code_list[i]
+  current_industry <- UnfilledOrders %>% filter(UnfilledOrders$...1 == current_code, UnfilledOrders$...2 != "2022") %>% select(3:14)
+  current_industry_transpose <- as.list(t(current_industry))
+  for (j in 1:length(current_industry_transpose))
+  {
+    unfilledorders_dataframe[j,i] = current_industry_transpose[j]
+  }
+  unfilledorders_dataframe[i] <- sapply(unfilledorders_dataframe[i],as.numeric)
+}
+colnames(unfilledorders_dataframe) = unfilledorders_industry_code_list
+dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
+dates2 <- format(dates, "%m/%y")
+unfilledorders_dataframe_time <- unfilledorders_dataframe %>% add_column(Date = dates2)
+head(unfilledorders_dataframe_time,12)
+```
+```{r}
+totalinventories_industry_code_list <- as.array(unique(TotalInventories$...1))
+totalinventories_dataframe <- tibble(.rows = 360)
+```
+```{r message=FALSE, warning=FALSE}
+for (i in 1:length(totalinventories_industry_code_list))
+{
+  current_code <- totalinventories_industry_code_list[i]
+  current_industry <- TotalInventories %>% filter(TotalInventories$...1 == current_code, TotalInventories$...2 != "2022") %>% select(3:14)
+  current_industry_transpose <- as.list(t(current_industry))
+  for (j in 1:length(current_industry_transpose))
+  {
+    totalinventories_dataframe[j,i] = current_industry_transpose[j]
+  }
+  totalinventories_dataframe[i] <- sapply(totalinventories_dataframe[i],as.numeric)
+}
+colnames(totalinventories_dataframe) = totalinventories_industry_code_list
+dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
+dates2 <- format(dates, "%m/%y")
+totalinventories_dataframe_time <- totalinventories_dataframe %>% add_column(Date = dates2)
+head(totalinventories_dataframe_time,12)
+```
+```{r}
+inventoriestoshipments_industry_code_list <- as.array(unique(InventoriesToShipments$...1))
+inventoriestoshipments_dataframe <- tibble(.rows = 360)
+```
+```{r message=FALSE, warning=FALSE}
+for (i in 1:length(inventoriestoshipments_industry_code_list))
+{
+  current_code <- inventoriestoshipments_industry_code_list[i]
+  current_industry <- InventoriesToShipments %>% filter(InventoriesToShipments$...1 == current_code, InventoriesToShipments$...2 != "2022") %>% select(3:14)
+  current_industry_transpose <- as.list(t(current_industry))
+  for (j in 1:length(current_industry_transpose))
+  {
+    inventoriestoshipments_dataframe[j,i] = current_industry_transpose[j]
+  }
+  inventoriestoshipments_dataframe[i] <- sapply(inventoriestoshipments_dataframe[i],as.numeric)
+}
+colnames(inventoriestoshipments_dataframe) = inventoriestoshipments_industry_code_list
+dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
+dates2 <- format(dates, "%m/%y")
+inventoriestoshipments_dataframe_time <- inventoriestoshipments_dataframe %>% add_column(Date = dates2)
+head(inventoriestoshipments_dataframe_time,12)
+```
+```{r}
+unfilledorderstoshipments_industry_code_list <- as.array(unique(UnfilledOrdersToShipments$...1))
+unfilledorderstoshipments_dataframe <- tibble(.rows = 360)
+```
+```{r message=FALSE, warning=FALSE}
+for (i in 1:length(unfilledorderstoshipments_industry_code_list))
+{
+  current_code <- unfilledorderstoshipments_industry_code_list[i]
+  current_industry <- UnfilledOrdersToShipments %>% filter(UnfilledOrdersToShipments$...1 == current_code, UnfilledOrdersToShipments$...2 != "2022") %>% select(3:14)
+  current_industry_transpose <- as.list(t(current_industry))
+  for (j in 1:length(current_industry_transpose))
+  {
+    unfilledorderstoshipments_dataframe[j,i] = current_industry_transpose[j]
+  }
+  unfilledorderstoshipments_dataframe[i] <- sapply(unfilledorderstoshipments_dataframe[i],as.numeric)
+}
+colnames(unfilledorderstoshipments_dataframe) = unfilledorderstoshipments_industry_code_list
+dates <- seq(from = as.Date("1992/01/01"), to = as.Date("2021/12/01"), by = "months")
+dates2 <- format(dates, "%m/%y")
+unfilledorderstoshipments_dataframe_time <- unfilledorderstoshipments_dataframe %>% add_column(Date = dates2)
+head(unfilledorderstoshipments_dataframe_time,12)
+```
+```{r}
+mean_row_ship <- colMeans(shipments_dataframe_time[sapply(shipments_dataframe_time, is.numeric)],na.rm = TRUE)
+median_row_ship <- colMedians(as.matrix(shipments_dataframe_time[sapply(shipments_dataframe_time, is.numeric)]),na.rm = TRUE)
+sd_row_ship <- colSds(as.matrix(shipments_dataframe_time[sapply(shipments_dataframe_time, is.numeric)]),na.rm = TRUE)
+shipments_mmv1 <- shipments_dataframe_time %>% rbind(shipments_dataframe_time, mean_row_ship)
+shipments_mmv2 <- shipments_mmv1 %>% rbind(shipments_mmv1, median_row_ship)
+shipments_mmv <- shipments_mmv2 %>% rbind(shipments_mmv2, sd_row_ship)
+shipments_mmv[nrow(shipments_mmv)-2,ncol(shipments_mmv)] <- "Mean"
+shipments_mmv[nrow(shipments_mmv)-1,ncol(shipments_mmv)] <- "Median"
+shipments_mmv[nrow(shipments_mmv),ncol(shipments_mmv)] <- "Standard Deviation"
+tail(shipments_mmv,10)
+```
+```{r}
+mean_row_neword <- colMeans(neworders_dataframe_time[sapply(neworders_dataframe_time, is.numeric)],na.rm = TRUE)
+median_row_neword <- colMedians(as.matrix(neworders_dataframe_time[sapply(neworders_dataframe_time, is.numeric)]),na.rm = TRUE)
+sd_row_neword <- colSds(as.matrix(neworders_dataframe_time[sapply(neworders_dataframe_time, is.numeric)]),na.rm = TRUE)
+neworders_mmv1 <- neworders_dataframe_time %>% rbind(neworders_dataframe_time, mean_row_neword)
+neworders_mmv2 <- neworders_mmv1 %>% rbind(neworders_mmv1, median_row_neword)
+neworders_mmv <- neworders_mmv2 %>% rbind(neworders_mmv2, sd_row_neword)
+neworders_mmv[nrow(neworders_mmv)-2,ncol(neworders_mmv)] <- "Mean"
+neworders_mmv[nrow(neworders_mmv)-1,ncol(neworders_mmv)] <- "Median"
+neworders_mmv[nrow(neworders_mmv),ncol(neworders_mmv)] <- "Standard Deviation"
+tail(neworders_mmv,10)
+```
+```{r}
+mean_row_unfillord <- colMeans(unfilledorders_dataframe_time[sapply(unfilledorders_dataframe_time, is.numeric)],na.rm = TRUE)
+median_row_unfillord <- colMedians(as.matrix(unfilledorders_dataframe_time[sapply(unfilledorders_dataframe_time, is.numeric)]),na.rm = TRUE)
+sd_row_unfillord <- colSds(as.matrix(unfilledorders_dataframe_time[sapply(unfilledorders_dataframe_time, is.numeric)]),na.rm = TRUE)
+unfillord_mmv1 <- unfilledorders_dataframe_time %>% rbind(unfilledorders_dataframe_time, mean_row_unfillord)
+unfillord_mmv2 <- unfillord_mmv1 %>% rbind(unfillord_mmv1, median_row_unfillord)
+unfillord_mmv <- unfillord_mmv2 %>% rbind(unfillord_mmv2, sd_row_unfillord)
+unfillord_mmv[nrow(unfillord_mmv)-2,ncol(unfillord_mmv)] <- "Mean"
+unfillord_mmv[nrow(unfillord_mmv)-1,ncol(unfillord_mmv)] <- "Median"
+unfillord_mmv[nrow(unfillord_mmv),ncol(unfillord_mmv)] <- "Standard Deviation"
+tail(unfillord_mmv,10)
+```
+```{r}
+mean_row_totalinv <- colMeans(totalinventories_dataframe_time[sapply(totalinventories_dataframe_time, is.numeric)],na.rm = TRUE)
+median_row_totalinv <- colMedians(as.matrix(totalinventories_dataframe_time[sapply(totalinventories_dataframe_time, is.numeric)]),na.rm = TRUE)
+sd_row_totalinv <- colSds(as.matrix(totalinventories_dataframe_time[sapply(totalinventories_dataframe_time, is.numeric)]),na.rm = TRUE)
+totalinv_mmv1 <- totalinventories_dataframe_time %>% rbind(totalinventories_dataframe_time, mean_row_totalinv)
+totalinv_mmv2 <- totalinv_mmv1 %>% rbind(totalinv_mmv1, median_row_totalinv)
+totalinv_mmv <- totalinv_mmv2 %>% rbind(totalinv_mmv2, sd_row_totalinv)
+totalinv_mmv[nrow(totalinv_mmv)-2,ncol(totalinv_mmv)] <- "Mean"
+totalinv_mmv[nrow(totalinv_mmv)-1,ncol(totalinv_mmv)] <- "Median"
+totalinv_mmv[nrow(totalinv_mmv),ncol(totalinv_mmv)] <- "Standard Deviation"
+tail(totalinv_mmv,10)
+```
+```{r}
+mean_row_invtoship <- colMeans(inventoriestoshipments_dataframe_time[sapply(inventoriestoshipments_dataframe_time, is.numeric)],na.rm = TRUE)
+median_row_invtoship <- colMedians(as.matrix(inventoriestoshipments_dataframe_time[sapply(inventoriestoshipments_dataframe_time, is.numeric)]),na.rm = TRUE)
+sd_row_invtoship <- colSds(as.matrix(inventoriestoshipments_dataframe_time[sapply(inventoriestoshipments_dataframe_time, is.numeric)]),na.rm = TRUE)
+invtoship_mmv1 <- inventoriestoshipments_dataframe_time %>% rbind(inventoriestoshipments_dataframe_time, mean_row_invtoship)
+invtoship_mmv2 <- invtoship_mmv1 %>% rbind(invtoship_mmv1, median_row_invtoship)
+invtoship_mmv <- invtoship_mmv2 %>% rbind(invtoship_mmv2, sd_row_invtoship)
+invtoship_mmv[nrow(invtoship_mmv)-2,ncol(invtoship_mmv)] <- "Mean"
+invtoship_mmv[nrow(invtoship_mmv)-1,ncol(invtoship_mmv)] <- "Median"
+invtoship_mmv[nrow(invtoship_mmv),ncol(invtoship_mmv)] <- "Standard Deviation"
+tail(invtoship_mmv,10)
+```
+```{r}
+mean_row_unfilltoship <- colMeans(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)],na.rm = TRUE)
+median_row_unfilltoship <- colMedians(as.matrix(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)]),na.rm = TRUE)
+sd_row_unfilltoship <- colSds(as.matrix(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)]),na.rm = TRUE)
+unfilltoship_mmv1 <- unfilledorderstoshipments_dataframe_time %>% rbind(unfilledorderstoshipments_dataframe_time, mean_row_unfilltoship)
+unfilltoship_mmv2 <- unfilltoship_mmv1 %>% rbind(unfilltoship_mmv1, median_row_unfilltoship)
+unfilltoship_mmv <- unfilltoship_mmv2 %>% rbind(unfilltoship_mmv2, sd_row_unfilltoship)
+unfilltoship_mmv[nrow(unfilltoship_mmv)-2,ncol(unfilltoship_mmv)] <- "Mean"
+unfilltoship_mmv[nrow(unfilltoship_mmv)-1,ncol(unfilltoship_mmv)] <- "Median"
+unfilltoship_mmv[nrow(unfilltoship_mmv),ncol(unfilltoship_mmv)] <- "Standard Deviation"
+tail(unfilltoship_mmv,10)
+```
+
