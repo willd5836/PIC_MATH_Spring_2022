@@ -234,85 +234,511 @@ legend("topleft", legend = c("AMTMVS","AMXTVS","AMXDVS"), col = c("red","blue","
 ```{r}
 shipments_order <- order(colMeans(shipments_dataframe_time[sapply(shipments_dataframe_time, is.numeric)],na.rm = TRUE))
 shipments_mmv_ordered_mean <- shipments_mmv %>% select(all_of(shipments_order), ncol(shipments_mmv))
-for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151,156,161,166,171))
+shipments_mmv_ordered_mean_adj <- shipments_mmv_ordered_mean %>% select(starts_with('A')) #87 Columns
+shipments_mmv_ordered_mean_unadj <- shipments_mmv_ordered_mean %>% select(starts_with('U')) #87 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81))
 {
-  Series1 <- ts(data = shipments_mmv_ordered_mean[,i], start=c(1992), end=c(2021), frequency = 12)
-  Series2 <- ts(data = shipments_mmv_ordered_mean[,i+1], start=c(1992), end=c(2021), frequency = 12)
-  Series3 <- ts(data = shipments_mmv_ordered_mean[,i+2], start=c(1992), end=c(2021), frequency = 12)
-  Series4 <- ts(data = shipments_mmv_ordered_mean[,i+3], start=c(1992), end=c(2021), frequency = 12)
-  Series5 <- ts(data = shipments_mmv_ordered_mean[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  Series1 <- ts(data = shipments_mmv_ordered_mean_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = shipments_mmv_ordered_mean_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = shipments_mmv_ordered_mean_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = shipments_mmv_ordered_mean_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = shipments_mmv_ordered_mean_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
   ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
-  legend("topleft", legend = c(colnames(shipments_mmv_ordered_mean)[i],colnames(shipments_mmv_ordered_mean)[i+1],colnames(shipments_mmv_ordered_mean)[i+2],colnames(shipments_mmv_ordered_mean)[i+3],colnames(shipments_mmv_ordered_mean)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+  legend("topleft", legend = c(colnames(shipments_mmv_ordered_mean_adj)[i],colnames(shipments_mmv_ordered_mean_adj)[i+1],colnames(shipments_mmv_ordered_mean_adj)[i+2],colnames(shipments_mmv_ordered_mean_adj)[i+3],colnames(shipments_mmv_ordered_mean_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
 }
 ```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81))
+{
+  Series1 <- ts(data = shipments_mmv_ordered_mean_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = shipments_mmv_ordered_mean_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = shipments_mmv_ordered_mean_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = shipments_mmv_ordered_mean_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = shipments_mmv_ordered_mean_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(shipments_mmv_ordered_mean_unadj)[i],colnames(shipments_mmv_ordered_mean_unadj)[i+1],colnames(shipments_mmv_ordered_mean_unadj)[i+2],colnames(shipments_mmv_ordered_mean_unadj)[i+3],colnames(shipments_mmv_ordered_mean_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+
 ```{r}
 neworders_order <- order(colMeans(neworders_dataframe_time[sapply(neworders_dataframe_time, is.numeric)],na.rm = TRUE))
 neworders_mmv_ordered_mean <- neworders_mmv %>% select(all_of(neworders_order), ncol(neworders_mmv))
-for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101))
+neworders_mmv_ordered_mean_adj <- neworders_mmv_ordered_mean %>% select(starts_with('A')) #52 Columns
+neworders_mmv_ordered_mean_unadj <- neworders_mmv_ordered_mean %>% select(starts_with('U')) #52 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46))
 {
-  Series1 <- ts(data = neworders_mmv_ordered_mean[,i], start=c(1992), end=c(2021), frequency = 12)
-  Series2 <- ts(data = neworders_mmv_ordered_mean[,i+1], start=c(1992), end=c(2021), frequency = 12)
-  Series3 <- ts(data = neworders_mmv_ordered_mean[,i+2], start=c(1992), end=c(2021), frequency = 12)
-  Series4 <- ts(data = neworders_mmv_ordered_mean[,i+3], start=c(1992), end=c(2021), frequency = 12)
-  Series5 <- ts(data = neworders_mmv_ordered_mean[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  Series1 <- ts(data = neworders_mmv_ordered_mean_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = neworders_mmv_ordered_mean_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = neworders_mmv_ordered_mean_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = neworders_mmv_ordered_mean_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = neworders_mmv_ordered_mean_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
   ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
-  legend("topleft", legend = c(colnames(neworders_mmv_ordered_mean)[i],colnames(neworders_mmv_ordered_mean)[i+1],colnames(neworders_mmv_ordered_mean)[i+2],colnames(neworders_mmv_ordered_mean)[i+3],colnames(neworders_mmv_ordered_mean)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+  legend("topleft", legend = c(colnames(neworders_mmv_ordered_mean_adj)[i],colnames(neworders_mmv_ordered_mean_adj)[i+1],colnames(neworders_mmv_ordered_mean_adj)[i+2],colnames(neworders_mmv_ordered_mean_adj)[i+3],colnames(neworders_mmv_ordered_mean_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
 }
 ```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = neworders_mmv_ordered_mean_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = neworders_mmv_ordered_mean_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = neworders_mmv_ordered_mean_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = neworders_mmv_ordered_mean_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = neworders_mmv_ordered_mean_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(neworders_mmv_ordered_mean_unadj)[i],colnames(neworders_mmv_ordered_mean_unadj)[i+1],colnames(neworders_mmv_ordered_mean_unadj)[i+2],colnames(neworders_mmv_ordered_mean_unadj)[i+3],colnames(neworders_mmv_ordered_mean_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+
 ```{r}
 unfilledorders_order <- order(colMeans(unfilledorders_dataframe_time[sapply(unfilledorders_dataframe_time, is.numeric)],na.rm = TRUE))
 unfilledorders_mmv_ordered_mean <- unfillord_mmv %>% select(all_of(unfilledorders_order), ncol(unfillord_mmv))
-for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96))
+unfilledorders_mmv_ordered_mean_adj <- unfilledorders_mmv_ordered_mean %>% select(starts_with('A')) #50 Columns
+unfilledorders_mmv_ordered_mean_unadj <- unfilledorders_mmv_ordered_mean %>% select(starts_with('U')) #52 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46))
 {
-  Series1 <- ts(data = unfilledorders_mmv_ordered_mean[,i], start=c(1992), end=c(2021), frequency = 12)
-  Series2 <- ts(data = unfilledorders_mmv_ordered_mean[,i+1], start=c(1992), end=c(2021), frequency = 12)
-  Series3 <- ts(data = unfilledorders_mmv_ordered_mean[,i+2], start=c(1992), end=c(2021), frequency = 12)
-  Series4 <- ts(data = unfilledorders_mmv_ordered_mean[,i+3], start=c(1992), end=c(2021), frequency = 12)
-  Series5 <- ts(data = unfilledorders_mmv_ordered_mean[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  Series1 <- ts(data = unfilledorders_mmv_ordered_mean_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilledorders_mmv_ordered_mean_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilledorders_mmv_ordered_mean_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilledorders_mmv_ordered_mean_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilledorders_mmv_ordered_mean_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
   ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
-  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_mean)[i],colnames(unfilledorders_mmv_ordered_mean)[i+1],colnames(unfilledorders_mmv_ordered_mean)[i+2],colnames(unfilledorders_mmv_ordered_mean)[i+3],colnames(unfilledorders_mmv_ordered_mean)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_mean_adj)[i],colnames(unfilledorders_mmv_ordered_mean_adj)[i+1],colnames(unfilledorders_mmv_ordered_mean_adj)[i+2],colnames(unfilledorders_mmv_ordered_mean_adj)[i+3],colnames(unfilledorders_mmv_ordered_mean_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
 }
 ```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = unfilledorders_mmv_ordered_mean_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilledorders_mmv_ordered_mean_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilledorders_mmv_ordered_mean_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilledorders_mmv_ordered_mean_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilledorders_mmv_ordered_mean_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_mean_unadj)[i],colnames(unfilledorders_mmv_ordered_mean_unadj)[i+1],colnames(unfilledorders_mmv_ordered_mean_unadj)[i+2],colnames(unfilledorders_mmv_ordered_mean_unadj)[i+3],colnames(unfilledorders_mmv_ordered_mean_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+
 ```{r}
 totalinv_order <- order(colMeans(totalinventories_dataframe_time[sapply(totalinventories_dataframe_time, is.numeric)],na.rm = TRUE))
 totalinv_mmv_ordered_mean <- totalinv_mmv %>% select(all_of(totalinv_order), ncol(totalinv_mmv))
-for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151,156,161,166,171,176,181,186,191,201,206,211,216,221,226,231,236,241,246,251,256,261,266,271,276,281,286,291,296,301,306,311))
+totalinv_mmv_ordered_mean_adj <- totalinv_mmv_ordered_mean %>% select(starts_with('A')) #158 Columns
+totalinv_mmv_ordered_mean_unadj <- totalinv_mmv_ordered_mean %>% select(starts_with('U')) #158 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151))
 {
-  Series1 <- ts(data = totalinv_mmv_ordered_mean[,i], start=c(1992), end=c(2021), frequency = 12)
-  Series2 <- ts(data = totalinv_mmv_ordered_mean[,i+1], start=c(1992), end=c(2021), frequency = 12)
-  Series3 <- ts(data = totalinv_mmv_ordered_mean[,i+2], start=c(1992), end=c(2021), frequency = 12)
-  Series4 <- ts(data = totalinv_mmv_ordered_mean[,i+3], start=c(1992), end=c(2021), frequency = 12)
-  Series5 <- ts(data = totalinv_mmv_ordered_mean[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  Series1 <- ts(data = totalinv_mmv_ordered_mean_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = totalinv_mmv_ordered_mean_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = totalinv_mmv_ordered_mean_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = totalinv_mmv_ordered_mean_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = totalinv_mmv_ordered_mean_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
   ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
-  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_mean)[i],colnames(totalinv_mmv_ordered_mean)[i+1],colnames(totalinv_mmv_ordered_mean)[i+2],colnames(totalinv_mmv_ordered_mean)[i+3],colnames(totalinv_mmv_ordered_mean)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_mean_adj)[i],colnames(totalinv_mmv_ordered_mean_adj)[i+1],colnames(totalinv_mmv_ordered_mean_adj)[i+2],colnames(totalinv_mmv_ordered_mean_adj)[i+3],colnames(totalinv_mmv_ordered_mean_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
 }
 ```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151))
+{
+  Series1 <- ts(data = totalinv_mmv_ordered_mean_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = totalinv_mmv_ordered_mean_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = totalinv_mmv_ordered_mean_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = totalinv_mmv_ordered_mean_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = totalinv_mmv_ordered_mean_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_mean_unadj)[i],colnames(totalinv_mmv_ordered_mean_unadj)[i+1],colnames(totalinv_mmv_ordered_mean_unadj)[i+2],colnames(totalinv_mmv_ordered_mean_unadj)[i+3],colnames(totalinv_mmv_ordered_mean_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+
 ```{r}
 invtoship_order <- order(colMeans(inventoriestoshipments_dataframe_time[sapply(inventoriestoshipments_dataframe_time, is.numeric)],na.rm = TRUE))
 invtoship_mmv_ordered_mean <- invtoship_mmv %>% select(all_of(invtoship_order), ncol(invtoship_mmv))
-for (i in c(1,6,11,16,21,26,31,36,41))
+invtoship_mmv_ordered_mean_adj <- invtoship_mmv_ordered_mean %>% select(starts_with('A')) #24 Columns
+invtoship_mmv_ordered_mean_unadj <- invtoship_mmv_ordered_mean %>% select(starts_with('U')) #24 Columns
+for (i in c(1,6,11,16))
 {
-  Series1 <- ts(data = invtoship_mmv_ordered_mean[,i], start=c(1992), end=c(2021), frequency = 12)
-  Series2 <- ts(data = invtoship_mmv_ordered_mean[,i+1], start=c(1992), end=c(2021), frequency = 12)
-  Series3 <- ts(data = invtoship_mmv_ordered_mean[,i+2], start=c(1992), end=c(2021), frequency = 12)
-  Series4 <- ts(data = invtoship_mmv_ordered_mean[,i+3], start=c(1992), end=c(2021), frequency = 12)
-  Series5 <- ts(data = invtoship_mmv_ordered_mean[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  Series1 <- ts(data = invtoship_mmv_ordered_mean_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = invtoship_mmv_ordered_mean_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = invtoship_mmv_ordered_mean_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = invtoship_mmv_ordered_mean_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = invtoship_mmv_ordered_mean_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
   ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
-  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_mean)[i],colnames(invtoship_mmv_ordered_mean)[i+1],colnames(invtoship_mmv_ordered_mean)[i+2],colnames(invtoship_mmv_ordered_mean)[i+3],colnames(invtoship_mmv_ordered_mean)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_mean_adj)[i],colnames(invtoship_mmv_ordered_mean_adj)[i+1],colnames(invtoship_mmv_ordered_mean_adj)[i+2],colnames(invtoship_mmv_ordered_mean_adj)[i+3],colnames(invtoship_mmv_ordered_mean_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
 }
 ```
 ```{r}
-unfilltoship_order <- order(colMeans(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)],na.rm = TRUE))
-unfilltoship_mmv_ordered_mean <- unfilltoship_mmv %>% select(all_of(unfilltoship_order), ncol(unfilltoship_mmv))
-for (i in c(1,6,11))
+for (i in c(1,6,11,16))
 {
-  Series1 <- ts(data = unfilltoship_mmv_ordered_mean[,i], start=c(1992), end=c(2021), frequency = 12)
-  Series2 <- ts(data = unfilltoship_mmv_ordered_mean[,i+1], start=c(1992), end=c(2021), frequency = 12)
-  Series3 <- ts(data = unfilltoship_mmv_ordered_mean[,i+2], start=c(1992), end=c(2021), frequency = 12)
-  Series4 <- ts(data = unfilltoship_mmv_ordered_mean[,i+3], start=c(1992), end=c(2021), frequency = 12)
-  Series5 <- ts(data = unfilltoship_mmv_ordered_mean[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  Series1 <- ts(data = invtoship_mmv_ordered_mean_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = invtoship_mmv_ordered_mean_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = invtoship_mmv_ordered_mean_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = invtoship_mmv_ordered_mean_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = invtoship_mmv_ordered_mean_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
   ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
-  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_mean)[i],colnames(unfilltoship_mmv_ordered_mean)[i+1],colnames(unfilltoship_mmv_ordered_mean)[i+2],colnames(unfilltoship_mmv_ordered_mean)[i+3],colnames(unfilltoship_mmv_ordered_mean)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_mean_unadj)[i],colnames(invtoship_mmv_ordered_mean_unadj)[i+1],colnames(invtoship_mmv_ordered_mean_unadj)[i+2],colnames(invtoship_mmv_ordered_mean_unadj)[i+3],colnames(invtoship_mmv_ordered_mean_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
 }
 ```
+
+```{r}
+unfilltoship_order <- order(colMeans(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)],na.rm = TRUE))
+unfilltoship_mmv_ordered_mean <- unfilltoship_mmv %>% select(all_of(unfilltoship_order), ncol(unfilltoship_mmv))
+unfilltoship_mmv_ordered_mean_adj <- unfilltoship_mmv_ordered_mean %>% select(starts_with('A')) #9 Columns
+unfilltoship_mmv_ordered_mean_unadj <- unfilltoship_mmv_ordered_mean %>% select(starts_with('U')) #9 Columns
+for (i in c(1))
+{
+  Series1 <- ts(data = unfilltoship_mmv_ordered_mean_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilltoship_mmv_ordered_mean_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilltoship_mmv_ordered_mean_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilltoship_mmv_ordered_mean_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilltoship_mmv_ordered_mean_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_mean_adj)[i],colnames(unfilltoship_mmv_ordered_mean_adj)[i+1],colnames(unfilltoship_mmv_ordered_mean_adj)[i+2],colnames(unfilltoship_mmv_ordered_mean_adj)[i+3],colnames(unfilltoship_mmv_ordered_mean_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1))
+{
+  Series1 <- ts(data = unfilltoship_mmv_ordered_mean_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilltoship_mmv_ordered_mean_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilltoship_mmv_ordered_mean_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilltoship_mmv_ordered_mean_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilltoship_mmv_ordered_mean_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_mean_unadj)[i],colnames(unfilltoship_mmv_ordered_mean_unadj)[i+1],colnames(unfilltoship_mmv_ordered_mean_unadj)[i+2],colnames(unfilltoship_mmv_ordered_mean_unadj)[i+3],colnames(unfilltoship_mmv_ordered_mean_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+shipments_order_med <- order(colMedians(as.matrix(shipments_dataframe_time[sapply(shipments_dataframe_time, is.numeric)]),na.rm = TRUE))
+shipments_mmv_ordered_median <- shipments_mmv %>% select(all_of(shipments_order_med), ncol(shipments_mmv))
+shipments_mmv_ordered_median_adj <- shipments_mmv_ordered_median %>% select(starts_with('A')) #87 Columns
+shipments_mmv_ordered_median_unadj <- shipments_mmv_ordered_median %>% select(starts_with('U')) #87 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81))
+{
+  Series1 <- ts(data = shipments_mmv_ordered_median_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = shipments_mmv_ordered_median_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = shipments_mmv_ordered_median_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = shipments_mmv_ordered_median_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = shipments_mmv_ordered_median_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(shipments_mmv_ordered_median_adj)[i],colnames(shipments_mmv_ordered_median_adj)[i+1],colnames(shipments_mmv_ordered_median_adj)[i+2],colnames(shipments_mmv_ordered_median_adj)[i+3],colnames(shipments_mmv_ordered_median_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81))
+{
+  Series1 <- ts(data = shipments_mmv_ordered_median_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = shipments_mmv_ordered_median_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = shipments_mmv_ordered_median_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = shipments_mmv_ordered_median_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = shipments_mmv_ordered_median_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(shipments_mmv_ordered_median_unadj)[i],colnames(shipments_mmv_ordered_median_unadj)[i+1],colnames(shipments_mmv_ordered_median_unadj)[i+2],colnames(shipments_mmv_ordered_median_unadj)[i+3],colnames(shipments_mmv_ordered_median_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+neworders_order_med <- order(colMeans(as.matrix(neworders_dataframe_time[sapply(neworders_dataframe_time, is.numeric)]),na.rm = TRUE))
+neworders_mmv_ordered_median <- neworders_mmv %>% select(all_of(neworders_order_med), ncol(neworders_mmv))
+neworders_mmv_ordered_median_adj <- neworders_mmv_ordered_median %>% select(starts_with('A')) #52 Columns
+neworders_mmv_ordered_median_unadj <- neworders_mmv_ordered_median %>% select(starts_with('U')) #52 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = neworders_mmv_ordered_median_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = neworders_mmv_ordered_median_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = neworders_mmv_ordered_median_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = neworders_mmv_ordered_median_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = neworders_mmv_ordered_median_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(neworders_mmv_ordered_median_adj)[i],colnames(neworders_mmv_ordered_median_adj)[i+1],colnames(neworders_mmv_ordered_median_adj)[i+2],colnames(neworders_mmv_ordered_median_adj)[i+3],colnames(neworders_mmv_ordered_median_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = neworders_mmv_ordered_median_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = neworders_mmv_ordered_median_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = neworders_mmv_ordered_median_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = neworders_mmv_ordered_median_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = neworders_mmv_ordered_median_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(neworders_mmv_ordered_median_unadj)[i],colnames(neworders_mmv_ordered_median_unadj)[i+1],colnames(neworders_mmv_ordered_median_unadj)[i+2],colnames(neworders_mmv_ordered_median_unadj)[i+3],colnames(neworders_mmv_ordered_median_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+unfilledorders_order_med <- order(colMedians(as.matrix(unfilledorders_dataframe_time[sapply(unfilledorders_dataframe_time, is.numeric)]),na.rm = TRUE))
+unfilledorders_mmv_ordered_median <- unfillord_mmv %>% select(all_of(unfilledorders_order_med), ncol(unfillord_mmv))
+unfilledorders_mmv_ordered_median_adj <- unfilledorders_mmv_ordered_median %>% select(starts_with('A')) #50 Columns
+unfilledorders_mmv_ordered_median_unadj <- unfilledorders_mmv_ordered_median %>% select(starts_with('U')) #52 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = unfilledorders_mmv_ordered_median_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilledorders_mmv_ordered_median_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilledorders_mmv_ordered_median_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilledorders_mmv_ordered_median_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilledorders_mmv_ordered_median_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_median_adj)[i],colnames(unfilledorders_mmv_ordered_median_adj)[i+1],colnames(unfilledorders_mmv_ordered_median_adj)[i+2],colnames(unfilledorders_mmv_ordered_median_adj)[i+3],colnames(unfilledorders_mmv_ordered_median_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = unfilledorders_mmv_ordered_median_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilledorders_mmv_ordered_median_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilledorders_mmv_ordered_median_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilledorders_mmv_ordered_median_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilledorders_mmv_ordered_median_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_median_unadj)[i],colnames(unfilledorders_mmv_ordered_median_unadj)[i+1],colnames(unfilledorders_mmv_ordered_median_unadj)[i+2],colnames(unfilledorders_mmv_ordered_median_unadj)[i+3],colnames(unfilledorders_mmv_ordered_median_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+totalinv_order_med <- order(colMedians(as.matrix(totalinventories_dataframe_time[sapply(totalinventories_dataframe_time, is.numeric)]),na.rm = TRUE))
+totalinv_mmv_ordered_median <- totalinv_mmv %>% select(all_of(totalinv_order_med), ncol(totalinv_mmv))
+totalinv_mmv_ordered_median_adj <- totalinv_mmv_ordered_median %>% select(starts_with('A')) #158 Columns
+totalinv_mmv_ordered_median_unadj <- totalinv_mmv_ordered_median %>% select(starts_with('U')) #158 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151))
+{
+  Series1 <- ts(data = totalinv_mmv_ordered_median_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = totalinv_mmv_ordered_median_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = totalinv_mmv_ordered_median_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = totalinv_mmv_ordered_median_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = totalinv_mmv_ordered_median_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_median_adj)[i],colnames(totalinv_mmv_ordered_median_adj)[i+1],colnames(totalinv_mmv_ordered_median_adj)[i+2],colnames(totalinv_mmv_ordered_median_adj)[i+3],colnames(totalinv_mmv_ordered_median_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151))
+{
+  Series1 <- ts(data = totalinv_mmv_ordered_median_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = totalinv_mmv_ordered_median_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = totalinv_mmv_ordered_median_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = totalinv_mmv_ordered_median_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = totalinv_mmv_ordered_median_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_median_unadj)[i],colnames(totalinv_mmv_ordered_median_unadj)[i+1],colnames(totalinv_mmv_ordered_median_unadj)[i+2],colnames(totalinv_mmv_ordered_median_unadj)[i+3],colnames(totalinv_mmv_ordered_median_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+invtoship_order_med <- order(colMedians(as.matrix(inventoriestoshipments_dataframe_time[sapply(inventoriestoshipments_dataframe_time, is.numeric)]),na.rm = TRUE))
+invtoship_mmv_ordered_median <- invtoship_mmv %>% select(all_of(invtoship_order_med), ncol(invtoship_mmv))
+invtoship_mmv_ordered_median_adj <- invtoship_mmv_ordered_median %>% select(starts_with('A')) #24 Columns
+invtoship_mmv_ordered_median_unadj <- invtoship_mmv_ordered_median %>% select(starts_with('U')) #24 Columns
+for (i in c(1,6,11,16))
+{
+  Series1 <- ts(data = invtoship_mmv_ordered_median_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = invtoship_mmv_ordered_median_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = invtoship_mmv_ordered_median_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = invtoship_mmv_ordered_median_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = invtoship_mmv_ordered_median_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_median_adj)[i],colnames(invtoship_mmv_ordered_median_adj)[i+1],colnames(invtoship_mmv_ordered_median_adj)[i+2],colnames(invtoship_mmv_ordered_median_adj)[i+3],colnames(invtoship_mmv_ordered_median_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16))
+{
+  Series1 <- ts(data = invtoship_mmv_ordered_median_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = invtoship_mmv_ordered_median_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = invtoship_mmv_ordered_median_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = invtoship_mmv_ordered_median_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = invtoship_mmv_ordered_median_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_median_unadj)[i],colnames(invtoship_mmv_ordered_median_unadj)[i+1],colnames(invtoship_mmv_ordered_median_unadj)[i+2],colnames(invtoship_mmv_ordered_median_unadj)[i+3],colnames(invtoship_mmv_ordered_median_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+unfilltoship_order_med <- order(colMedians(as.matrix(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)]),na.rm = TRUE))
+unfilltoship_mmv_ordered_median <- unfilltoship_mmv %>% select(all_of(unfilltoship_order_med), ncol(unfilltoship_mmv))
+unfilltoship_mmv_ordered_median_adj <- unfilltoship_mmv_ordered_median %>% select(starts_with('A')) #9 Columns
+unfilltoship_mmv_ordered_median_unadj <- unfilltoship_mmv_ordered_median %>% select(starts_with('U')) #9 Columns
+for (i in c(1))
+{
+  Series1 <- ts(data = unfilltoship_mmv_ordered_median_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilltoship_mmv_ordered_median_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilltoship_mmv_ordered_median_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilltoship_mmv_ordered_median_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilltoship_mmv_ordered_median_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_median_adj)[i],colnames(unfilltoship_mmv_ordered_median_adj)[i+1],colnames(unfilltoship_mmv_ordered_median_adj)[i+2],colnames(unfilltoship_mmv_ordered_median_adj)[i+3],colnames(unfilltoship_mmv_ordered_median_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1))
+{
+  Series1 <- ts(data = unfilltoship_mmv_ordered_median_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilltoship_mmv_ordered_median_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilltoship_mmv_ordered_median_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilltoship_mmv_ordered_median_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilltoship_mmv_ordered_median_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_median_unadj)[i],colnames(unfilltoship_mmv_ordered_median_unadj)[i+1],colnames(unfilltoship_mmv_ordered_median_unadj)[i+2],colnames(unfilltoship_mmv_ordered_median_unadj)[i+3],colnames(unfilltoship_mmv_ordered_median_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+shipments_order_sd <- order(colSds(as.matrix(shipments_dataframe_time[sapply(shipments_dataframe_time, is.numeric)]),na.rm = TRUE))
+shipments_mmv_ordered_standev <- shipments_mmv %>% select(all_of(shipments_order_sd), ncol(shipments_mmv))
+shipments_mmv_ordered_standev_adj <- shipments_mmv_ordered_standev %>% select(starts_with('A')) #9 Columns
+shipments_mmv_ordered_standev_unadj <- shipments_mmv_ordered_standev %>% select(starts_with('U')) #9 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81))
+{
+  Series1 <- ts(data = shipments_mmv_ordered_standev_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = shipments_mmv_ordered_standev_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = shipments_mmv_ordered_standev_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = shipments_mmv_ordered_standev_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = shipments_mmv_ordered_standev_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(shipments_mmv_ordered_standev_adj)[i],colnames(shipments_mmv_ordered_standev_adj)[i+1],colnames(shipments_mmv_ordered_standev_adj)[i+2],colnames(shipments_mmv_ordered_standev_adj)[i+3],colnames(shipments_mmv_ordered_standev_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81))
+{
+  Series1 <- ts(data = shipments_mmv_ordered_standev_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = shipments_mmv_ordered_standev_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = shipments_mmv_ordered_standev_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = shipments_mmv_ordered_standev_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = shipments_mmv_ordered_standev_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(shipments_mmv_ordered_standev_unadj)[i],colnames(shipments_mmv_ordered_standev_unadj)[i+1],colnames(shipments_mmv_ordered_standev_unadj)[i+2],colnames(shipments_mmv_ordered_standev_unadj)[i+3],colnames(shipments_mmv_ordered_standev_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+neworders_order_sd <- order(colSds(as.matrix(neworders_dataframe_time[sapply(neworders_dataframe_time, is.numeric)]),na.rm = TRUE))
+neworders_mmv_ordered_standev <- neworders_mmv %>% select(all_of(neworders_order_sd), ncol(neworders_mmv))
+neworders_mmv_ordered_standev_adj <- neworders_mmv_ordered_standev %>% select(starts_with('A')) #52 Columns
+neworders_mmv_ordered_standev_unadj <- neworders_mmv_ordered_standev %>% select(starts_with('U')) #52 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = neworders_mmv_ordered_standev_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = neworders_mmv_ordered_standev_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = neworders_mmv_ordered_standev_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = neworders_mmv_ordered_standev_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = neworders_mmv_ordered_standev_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(neworders_mmv_ordered_standev_adj)[i],colnames(neworders_mmv_ordered_standev_adj)[i+1],colnames(neworders_mmv_ordered_standev_adj)[i+2],colnames(neworders_mmv_ordered_standev_adj)[i+3],colnames(neworders_mmv_ordered_standev_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = neworders_mmv_ordered_standev_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = neworders_mmv_ordered_standev_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = neworders_mmv_ordered_standev_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = neworders_mmv_ordered_standev_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = neworders_mmv_ordered_standev_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(neworders_mmv_ordered_standev_unadj)[i],colnames(neworders_mmv_ordered_standev_unadj)[i+1],colnames(neworders_mmv_ordered_standev_unadj)[i+2],colnames(neworders_mmv_ordered_standev_unadj)[i+3],colnames(neworders_mmv_ordered_standev_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+unfilledorders_order_sd <- order(colSds(as.matrix(unfilledorders_dataframe_time[sapply(unfilledorders_dataframe_time, is.numeric)]),na.rm = TRUE))
+unfilledorders_mmv_ordered_standev <- unfillord_mmv %>% select(all_of(unfilledorders_order_sd), ncol(unfillord_mmv))
+unfilledorders_mmv_ordered_standev_adj <- unfilledorders_mmv_ordered_standev %>% select(starts_with('A')) #50 Columns
+unfilledorders_mmv_ordered_standev_unadj <- unfilledorders_mmv_ordered_standev %>% select(starts_with('U')) #52 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = unfilledorders_mmv_ordered_standev_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilledorders_mmv_ordered_standev_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilledorders_mmv_ordered_standev_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilledorders_mmv_ordered_standev_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilledorders_mmv_ordered_standev_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_standev_adj)[i],colnames(unfilledorders_mmv_ordered_standev_adj)[i+1],colnames(unfilledorders_mmv_ordered_standev_adj)[i+2],colnames(unfilledorders_mmv_ordered_standev_adj)[i+3],colnames(unfilledorders_mmv_ordered_standev_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46))
+{
+  Series1 <- ts(data = unfilledorders_mmv_ordered_standev_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilledorders_mmv_ordered_standev_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilledorders_mmv_ordered_standev_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilledorders_mmv_ordered_standev_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilledorders_mmv_ordered_standev_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilledorders_mmv_ordered_standev_unadj)[i],colnames(unfilledorders_mmv_ordered_standev_unadj)[i+1],colnames(unfilledorders_mmv_ordered_standev_unadj)[i+2],colnames(unfilledorders_mmv_ordered_standev_unadj)[i+3],colnames(unfilledorders_mmv_ordered_standev_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+totalinv_order_sd <- order(colSds(as.matrix(totalinventories_dataframe_time[sapply(totalinventories_dataframe_time, is.numeric)]),na.rm = TRUE))
+totalinv_mmv_ordered_standev <- totalinv_mmv %>% select(all_of(totalinv_order_sd), ncol(totalinv_mmv))
+totalinv_mmv_ordered_standev_adj <- totalinv_mmv_ordered_standev %>% select(starts_with('A')) #158 Columns
+totalinv_mmv_ordered_standev_unadj <- totalinv_mmv_ordered_standev %>% select(starts_with('U')) #158 Columns
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151))
+{
+  Series1 <- ts(data = totalinv_mmv_ordered_standev_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = totalinv_mmv_ordered_standev_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = totalinv_mmv_ordered_standev_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = totalinv_mmv_ordered_standev_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = totalinv_mmv_ordered_standev_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_standev_adj)[i],colnames(totalinv_mmv_ordered_standev_adj)[i+1],colnames(totalinv_mmv_ordered_standev_adj)[i+2],colnames(totalinv_mmv_ordered_standev_adj)[i+3],colnames(totalinv_mmv_ordered_standev_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,121,126,131,136,141,146,151))
+{
+  Series1 <- ts(data = totalinv_mmv_ordered_standev_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = totalinv_mmv_ordered_standev_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = totalinv_mmv_ordered_standev_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = totalinv_mmv_ordered_standev_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = totalinv_mmv_ordered_standev_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(totalinv_mmv_ordered_standev_unadj)[i],colnames(totalinv_mmv_ordered_standev_unadj)[i+1],colnames(totalinv_mmv_ordered_standev_unadj)[i+2],colnames(totalinv_mmv_ordered_standev_unadj)[i+3],colnames(totalinv_mmv_ordered_standev_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+invtoship_order_sd <- order(colSds(as.matrix(inventoriestoshipments_dataframe_time[sapply(inventoriestoshipments_dataframe_time, is.numeric)]),na.rm = TRUE))
+invtoship_mmv_ordered_standev <- invtoship_mmv %>% select(all_of(invtoship_order_sd), ncol(invtoship_mmv))
+invtoship_mmv_ordered_standev_adj <- invtoship_mmv_ordered_standev %>% select(starts_with('A')) #24 Columns
+invtoship_mmv_ordered_standev_unadj <- invtoship_mmv_ordered_standev %>% select(starts_with('U')) #24 Columns
+for (i in c(1,6,11,16))
+{
+  Series1 <- ts(data = invtoship_mmv_ordered_standev_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = invtoship_mmv_ordered_standev_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = invtoship_mmv_ordered_standev_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = invtoship_mmv_ordered_standev_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = invtoship_mmv_ordered_standev_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_standev_adj)[i],colnames(invtoship_mmv_ordered_standev_adj)[i+1],colnames(invtoship_mmv_ordered_standev_adj)[i+2],colnames(invtoship_mmv_ordered_standev_adj)[i+3],colnames(invtoship_mmv_ordered_standev_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1,6,11,16))
+{
+  Series1 <- ts(data = invtoship_mmv_ordered_standev_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = invtoship_mmv_ordered_standev_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = invtoship_mmv_ordered_standev_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = invtoship_mmv_ordered_standev_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = invtoship_mmv_ordered_standev_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(invtoship_mmv_ordered_standev_unadj)[i],colnames(invtoship_mmv_ordered_standev_unadj)[i+1],colnames(invtoship_mmv_ordered_standev_unadj)[i+2],colnames(invtoship_mmv_ordered_standev_unadj)[i+3],colnames(invtoship_mmv_ordered_standev_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+unfilltoship_order_sd <- order(colSds(as.matrix(unfilledorderstoshipments_dataframe_time[sapply(unfilledorderstoshipments_dataframe_time, is.numeric)]),na.rm = TRUE))
+unfilltoship_mmv_ordered_standev <- unfilltoship_mmv %>% select(all_of(unfilltoship_order_sd), ncol(unfilltoship_mmv))
+unfilltoship_mmv_ordered_standev_adj <- unfilltoship_mmv_ordered_standev %>% select(starts_with('A')) #9 Columns
+unfilltoship_mmv_ordered_standev_unadj <- unfilltoship_mmv_ordered_standev %>% select(starts_with('U')) #9 Columns
+for (i in c(1))
+{
+  Series1 <- ts(data = unfilltoship_mmv_ordered_standev_adj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilltoship_mmv_ordered_standev_adj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilltoship_mmv_ordered_standev_adj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilltoship_mmv_ordered_standev_adj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilltoship_mmv_ordered_standev_adj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_standev_adj)[i],colnames(unfilltoship_mmv_ordered_standev_adj)[i+1],colnames(unfilltoship_mmv_ordered_standev_adj)[i+2],colnames(unfilltoship_mmv_ordered_standev_adj)[i+3],colnames(unfilltoship_mmv_ordered_standev_adj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+```{r}
+for (i in c(1))
+{
+  Series1 <- ts(data = unfilltoship_mmv_ordered_standev_unadj[,i], start=c(1992), end=c(2021), frequency = 12)
+  Series2 <- ts(data = unfilltoship_mmv_ordered_standev_unadj[,i+1], start=c(1992), end=c(2021), frequency = 12)
+  Series3 <- ts(data = unfilltoship_mmv_ordered_standev_unadj[,i+2], start=c(1992), end=c(2021), frequency = 12)
+  Series4 <- ts(data = unfilltoship_mmv_ordered_standev_unadj[,i+3], start=c(1992), end=c(2021), frequency = 12)
+  Series5 <- ts(data = unfilltoship_mmv_ordered_standev_unadj[,i+4], start=c(1992), end=c(2021), frequency = 12)
+  ts.plot(Series1, Series2, Series3, Series4, Series5, gpars=list(xlab="Year", ylab="Value",lty=c(1:5)), col=rep(c("red","purple","black","green","blue")))
+  legend("topleft", legend = c(colnames(unfilltoship_mmv_ordered_standev_unadj)[i],colnames(unfilltoship_mmv_ordered_standev_unadj)[i+1],colnames(unfilltoship_mmv_ordered_standev_unadj)[i+2],colnames(unfilltoship_mmv_ordered_standev_unadj)[i+3],colnames(unfilltoship_mmv_ordered_standev_unadj)[i+4]), col = c("red","purple","black","green","blue"), lty=c(1:4))
+}
+```
+
 
